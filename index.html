@@ -1,0 +1,283 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSFU AUTO2000 SUKUN</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ff0000; /* Latar merah */
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            transition: all 0.3s;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: white;
+            color: #ff0000;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #ffcccc;
+            transform: translateY(-2px);
+        }
+        #loginPage, #inputPage, #resultPage {
+            display: none;
+        }
+        .active-page {
+            display: block !important;
+        }
+        .rating-boxes {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        .rating-box {
+            width: 40px;
+            height: 40px;
+            background: white;
+            color: #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .rating-box.active {
+            background: #ffcccc;
+        }
+        .result-item {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        .result-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Halaman Login -->
+    <div class="container active-page" id="loginPage">
+        <h2>Login PSFU AUTO2000 SUKUN</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <div id="roleSelection" style="display: none; margin-top: 20px;">
+            <button onclick="showPage('inputPage')">Isi Form PSFU</button>
+            <button onclick="showPage('resultPage')">Lihat Hasil PSFU</button>
+        </div>
+    </div>
+
+    <!-- Halaman Input -->
+    <div class="container" id="inputPage">
+        <h2>Form PSFU AUTO2000 SUKUN</h2>
+        <form id="psfuForm">
+            <input type="text" id="customerName" placeholder="Nama Customer" required>
+            <input type="tel" id="phoneNumber" placeholder="No HP Customer" required>
+            <input type="text" id="plateNumber" placeholder="Nomor Polisi" required>
+            
+            <select id="carType" required>
+                <option value="" disabled selected>Pilih Tipe Mobil Toyota</option>
+                <optgroup label="City Car">
+                    <option value="Agya">Agya</option>
+                    <option value="Ayla">Ayla</option>
+                </optgroup>
+                <optgroup label="Hatchback">
+                    <option value="Yaris">Yaris</option>
+                    <option value="GR Yaris">GR Yaris</option>
+                </optgroup>
+                <optgroup label="MPV">
+                    <option value="Avanza">Avanza</option>
+                    <option value="Veloz">Veloz</option>
+                    <option value="Innova">Innova</option>
+                </optgroup>
+                <optgroup label="SUV">
+                    <option value="Raize">Raize</option>
+                    <option value="Rush">Rush</option>
+                    <option value="Fortuner">Fortuner</option>
+                </optgroup>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+            
+            <input type="date" id="lastService" required>
+            
+            <div>Nilai Kepuasan (1-10)</div>
+            <div class="rating-boxes">
+                <div class="rating-box" data-value="1">1</div>
+                <div class="rating-box" data-value="2">2</div>
+                <div class="rating-box" data-value="3">3</div>
+                <div class="rating-box" data-value="4">4</div>
+                <div class="rating-box" data-value="5">5</div>
+                <div class="rating-box" data-value="6">6</div>
+                <div class="rating-box" data-value="7">7</div>
+                <div class="rating-box" data-value="8">8</div>
+                <div class="rating-box" data-value="9">9</div>
+                <div class="rating-box" data-value="10">10</div>
+            </div>
+            <input type="hidden" id="ratingValue" required>
+            
+            <textarea id="ratingDescription" rows="3" placeholder="Komentar" required></textarea>
+            
+            <select id="serviceAdvisor" required>
+                <option value="" disabled selected>Pilih Service Advisor</option>
+                <option value="Budi Santoso">Budi Santoso</option>
+                <option value="Ani Wijaya">Ani Wijaya</option>
+                <option value="Doni Pratama">Doni Pratama</option>
+                <option value="Rina Permata">Rina Permata</option>
+            </select>
+            
+            <button type="submit">Simpan</button>
+            <button type="button" onclick="showPage('loginPage')" style="background: transparent; color: white; border: 1px solid white;">Kembali</button>
+        </form>
+    </div>
+
+    <!-- Halaman Hasil -->
+    <div class="container" id="resultPage">
+        <h2>Hasil PSFU AUTO2000 SUKUN</h2>
+        
+        <div id="resultsContainer">
+            <!-- Hasil akan ditampilkan di sini -->
+        </div>
+        
+        <button onclick="showPage('loginPage')">Kembali ke Login</button>
+    </div>
+
+    <script>
+        // Simpan data sementara
+        let psfuRecords = [];
+        let currentRating = 0;
+
+        // Fungsi utama untuk mengganti halaman
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            document.getElementById(pageId).classList.add('active-page');
+            
+            if (pageId === 'resultPage') {
+                displayResults();
+            }
+        }
+
+        // Fungsi login sederhana
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Harap isi email dan password');
+                return;
+            }
+            
+            document.getElementById('roleSelection').style.display = 'block';
+        }
+
+        // Set rating aktif
+        document.querySelectorAll('.rating-box').forEach(box => {
+            box.addEventListener('click', function() {
+                document.querySelectorAll('.rating-box').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                document.getElementById('ratingValue').value = this.getAttribute('data-value');
+                currentRating = this.getAttribute('data-value');
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('psfuForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('ratingValue').value) {
+                alert('Harap beri nilai rating');
+                return;
+            }
+            
+            const record = {
+                name: document.getElementById('customerName').value,
+                phone: document.getElementById('phoneNumber').value,
+                plate: document.getElementById('plateNumber').value,
+                carType: document.getElementById('carType').value,
+                serviceDate: document.getElementById('lastService').value,
+                rating: document.getElementById('ratingValue').value,
+                comment: document.getElementById('ratingDescription').value,
+                advisor: document.getElementById('serviceAdvisor').value,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            psfuRecords.push(record);
+            alert('Data berhasil disimpan!');
+            this.reset();
+            document.querySelectorAll('.rating-box').forEach(b => b.classList.remove('active'));
+        });
+
+        // Tampilkan hasil
+        function displayResults() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+            
+            if (psfuRecords.length === 0) {
+                container.innerHTML = '<p>Belum ada data yang tersimpan</p>';
+                return;
+            }
+            
+            psfuRecords.forEach((record, index) => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.innerHTML = `
+                    <div class="result-label">Data #${index + 1}</div>
+                    <div>Nama: ${record.name}</div>
+                    <div>No HP: ${record.phone}</div>
+                    <div>No Polisi: ${record.plate}</div>
+                    <div>Tipe Mobil: ${record.carType}</div>
+                    <div>Tanggal Service: ${record.serviceDate}</div>
+                    <div>Rating: ${record.rating}/10</div>
+                    <div>Komentar: ${record.comment}</div>
+                    <div>Service Advisor: ${record.advisor}</div>
+                    <div>Waktu Input: ${record.timestamp}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
+```
